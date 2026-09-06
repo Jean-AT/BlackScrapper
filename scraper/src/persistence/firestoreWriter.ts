@@ -11,6 +11,10 @@ function ensureFirebaseAdmin() {
 
   const config = getScraperConfig();
 
+  if (config.firestoreEmulatorHost) {
+    process.env.FIRESTORE_EMULATOR_HOST = config.firestoreEmulatorHost;
+  }
+
   if (!config.projectId || !config.clientEmail || !config.privateKey) {
     return null;
   }

@@ -3,6 +3,7 @@ type ScraperConfig = {
   clientEmail: string | null;
   privateKey: string | null;
   userId: string;
+  firestoreEmulatorHost: string | null;
 };
 
 function readEnv(name: string) {
@@ -15,6 +16,7 @@ export function getScraperConfig(): ScraperConfig {
     projectId: readEnv('FIREBASE_PROJECT_ID'),
     clientEmail: readEnv('FIREBASE_CLIENT_EMAIL'),
     privateKey: readEnv('FIREBASE_PRIVATE_KEY')?.replace(/\\n/g, '\n') ?? null,
-    userId: readEnv('SCRAPER_USER_ID') ?? 'local-user'
+    userId: readEnv('SCRAPER_USER_ID') ?? 'local-user',
+    firestoreEmulatorHost: readEnv('SCRAPER_FIRESTORE_EMULATOR_HOST')
   };
 }
