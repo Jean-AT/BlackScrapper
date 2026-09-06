@@ -1,0 +1,17 @@
+{
+  "name": "blackscrapper",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "web",
+    "scraper"
+  ],
+  "scripts": {
+    "dev:web": "npm --workspace web run dev",
+    "build:web": "npm --workspace web run build",
+    "dev:scraper": "npm --workspace scraper run dev",
+    "build:scraper": "npm --workspace scraper run build",
+    "lint": "npm run -ws lint",
+    "typecheck": "npm run -ws typecheck"
+  }
+}
