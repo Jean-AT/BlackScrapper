@@ -86,22 +86,16 @@ export async function extractRawBlackboardData(page: Page): Promise<{
         sourceUrl: string;
       };
 
-      type CourseRecord = {
-        courseName: string;
-        sourceUrl: string;
-      };
-
       const normalize = (value: string | null | undefined) =>
         (value ?? '').replace(/\s+/g, ' ').trim();
 
-      const textOf = (element: Element | null | undefined) => normalize(element?.textContent);
-      const pickText = (root: Element, selector: string | null | undefined) => {
-        if (!selector) {
-          return '';
-        }
+      const isLikelyAssignmentText = (text: string) =>
+        /(assignment|task|homework|project|quiz|due|deadline)/i.test(text);
 
-        return textOf(root.querySelector(selector));
-      };
+      const isLikelyGradeText = (text: string) =>
+        /(\d+(?:\.\d+)?\s*\/\s*\d+(?:\.\d+)?|\d+(?:\.\d+)?\s*%|grade|score|points)/i.test(text);
+
+      const textOf = (element: Element | null | undefined) => normalize(element?.textContent);
 
       const rowText = (row: Element) => textOf(row);
 

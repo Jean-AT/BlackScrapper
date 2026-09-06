@@ -19,3 +19,4 @@ scraper/*.tsbuildinfo
 
 .firebase
 .firebaserc.local
+firestore-debug.log
