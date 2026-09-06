@@ -1,12 +1,12 @@
 import type { BlackboardScrapeResult } from '../types.js';
+import { writeScrapeToFirestore } from './firestoreWriter.js';
 
 export async function persistSyncRun(result: BlackboardScrapeResult) {
-  const payload = {
-    syncRun: result.syncRun,
-    assignments: result.assignments,
-    grades: result.grades
-  };
+  const resultMode = await writeScrapeToFirestore(result);
 
-  console.log('Persisting sync payload');
-  console.log(JSON.stringify(payload, null, 2));
+  console.log(
+    resultMode.mode === 'firestore'
+      ? 'Persisted sync payload to Firestore'
+      : 'Firebase credentials not configured; skipped remote persistence'
+  );
 }

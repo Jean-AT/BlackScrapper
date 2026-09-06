@@ -1,15 +1,17 @@
 import type { Page } from 'puppeteer';
 import type { BlackboardScrapeResult } from '../types.js';
+import { getScraperConfig } from '../config.js';
 
 export async function extractBlackboardData(page: Page): Promise<BlackboardScrapeResult> {
   const now = new Date().toISOString();
   const syncRunId = crypto.randomUUID();
+  const { userId } = getScraperConfig();
 
   const title = await page.title();
   const baseUrl = page.url();
 
   return {
-    userId: 'local-user',
+    userId,
     assignments: [
       {
         id: crypto.randomUUID(),

@@ -1,9 +1,8 @@
-import { useMemo } from 'react';
 import { Dashboard } from './components/Dashboard';
-import { sampleDashboardData } from './data/sampleData';
+import { useDashboardData } from './hooks/useDashboardData';
 
 export default function App() {
-  const dashboard = useMemo(() => sampleDashboardData, []);
+  const { data, source, loading, error } = useDashboardData();
 
   return (
     <main className="app-shell">
@@ -14,9 +13,13 @@ export default function App() {
           A local Puppeteer scraper feeds Firestore, and this React dashboard
           keeps the academic snapshot organized.
         </p>
+        <div className="hero-badges">
+          <span>{loading ? 'Loading data' : `Data source: ${source}`}</span>
+          {error ? <span className="badge-error">{error}</span> : null}
+        </div>
       </header>
 
-      <Dashboard data={dashboard} />
+      <Dashboard data={data} loading={loading} />
     </main>
   );
 }

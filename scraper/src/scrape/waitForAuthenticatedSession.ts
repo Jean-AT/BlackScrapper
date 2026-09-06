@@ -7,6 +7,8 @@ const AUTH_MARKERS = [
   'body'
 ];
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export async function waitForAuthenticatedSession(page: Page) {
   for (;;) {
     for (const selector of AUTH_MARKERS) {
@@ -19,6 +21,6 @@ export async function waitForAuthenticatedSession(page: Page) {
       }
     }
 
-    await page.waitForTimeout(1500);
+    await sleep(1500);
   }
 }

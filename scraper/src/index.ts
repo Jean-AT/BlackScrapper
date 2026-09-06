@@ -4,11 +4,12 @@ import { extractBlackboardData } from './scrape/extractBlackboardData.js';
 import { persistSyncRun } from './persistence/persistSyncRun.js';
 
 async function main() {
+  const startupUrl = process.env.BLACKBOARD_START_URL ?? 'https://blackboard.upc.edu.pe/';
   const browser = await launchBrowser();
 
   try {
     const page = await browser.newPage();
-    await page.goto('https://blackboard.upc.edu.pe/', {
+    await page.goto(startupUrl, {
       waitUntil: 'domcontentloaded'
     });
 

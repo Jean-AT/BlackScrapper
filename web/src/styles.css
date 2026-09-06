@@ -35,6 +35,29 @@ body {
   margin-bottom: 32px;
 }
 
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-badges span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(16, 32, 58, 0.08);
+  color: #314663;
+  font-size: 0.875rem;
+}
+
+.badge-error {
+  color: #8d2437 !important;
+  background: rgba(255, 235, 239, 0.96) !important;
+}
+
 .eyebrow {
   margin: 0;
   text-transform: uppercase;
@@ -99,6 +122,12 @@ body {
   padding: 14px 16px;
   border-radius: 18px;
   background: rgba(240, 245, 255, 0.9);
+}
+
+.item-empty {
+  justify-content: flex-start;
+  color: #5b6b86;
+  font-weight: 500;
 }
 
 .item-card p {
