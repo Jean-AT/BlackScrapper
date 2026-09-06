@@ -18,7 +18,7 @@ async function main() {
     await persistSyncRun(data);
 
     console.log(
-      `Sync completed: ${data.assignments.length} assignments and ${data.grades.length} grades`
+      `Sync completed: ${data.assignments.length} assignments and ${data.grades.length} grades from ${data.page.title}`
     );
   } finally {
     await browser.close();

@@ -35,4 +35,8 @@ export type BlackboardScrapeResult = {
     itemsScraped: number;
     errorMessage?: string;
   };
+  page: {
+    title: string;
+    sourceUrl: string;
+  };
 };
