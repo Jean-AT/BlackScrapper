@@ -1,0 +1,165 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(circle at top, #f3f8ff 0%, #eef3ff 35%, #f8fafc 100%);
+  color: #10203a;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.app-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 56px 24px 80px;
+}
+
+.hero {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #50668b;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 5vw, 4.6rem);
+  line-height: 0.98;
+  max-width: 12ch;
+}
+
+.lede {
+  margin: 0;
+  max-width: 60ch;
+  font-size: 1.05rem;
+  color: #4c5f7d;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.panel {
+  grid-column: span 6;
+  padding: 20px;
+  border: 1px solid rgba(16, 32, 58, 0.08);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 24px 60px rgba(46, 64, 111, 0.08);
+}
+
+.panel-highlight {
+  grid-column: span 12;
+}
+
+.panel h2 {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+}
+
+.item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.item-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(240, 245, 255, 0.9);
+}
+
+.item-card p {
+  margin: 4px 0 0;
+  color: #60718f;
+  font-size: 0.92rem;
+}
+
+.item-card span {
+  font-variant-numeric: tabular-nums;
+  color: #1c3d70;
+  font-weight: 700;
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+}
+
+.status-grid div {
+  padding: 16px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(245, 248, 255, 1), rgba(234, 240, 255, 1));
+}
+
+.status-grid dt {
+  margin: 0 0 8px;
+  color: #5d6f8d;
+  font-size: 0.85rem;
+}
+
+.status-grid dd {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+@media (max-width: 860px) {
+  .panel,
+  .panel-highlight {
+    grid-column: span 12;
+  }
+
+  .status-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    padding: 36px 16px 64px;
+  }
+
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .item-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
