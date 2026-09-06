@@ -7,6 +7,8 @@
     "scraper"
   ],
   "scripts": {
+    "dev:local": "node scripts/dev-local.mjs",
+    "dev:emulator": "firebase emulators:start --only firestore --project blackscrapper-local",
     "dev:web": "npm --workspace web run dev",
     "build:web": "npm --workspace web run build",
     "dev:scraper": "npm --workspace scraper run dev",

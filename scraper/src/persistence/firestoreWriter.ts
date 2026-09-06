@@ -15,6 +15,19 @@ function ensureFirebaseAdmin() {
     process.env.FIRESTORE_EMULATOR_HOST = config.firestoreEmulatorHost;
   }
 
+  const usingEmulator = Boolean(config.firestoreEmulatorHost);
+
+  if (usingEmulator) {
+    if (!admin.apps.length) {
+      admin.initializeApp({
+        projectId: config.projectId ?? 'blackscrapper-local'
+      });
+    }
+
+    appInitialized = true;
+    return admin.firestore();
+  }
+
   if (!config.projectId || !config.clientEmail || !config.privateKey) {
     return null;
   }
