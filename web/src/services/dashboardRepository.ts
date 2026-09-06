@@ -18,6 +18,11 @@ export function listenToDashboardData(
   onChange: (snapshot: DashboardSnapshot) => void,
   onError: (error: Error) => void
 ) {
+  const coursesQuery = query(
+    collection(db, 'courses'),
+    orderBy('courseName', 'asc'),
+    limit(20)
+  );
   const assignmentsQuery = query(
     collection(db, 'assignments'),
     orderBy('dueDate', 'asc'),
@@ -35,6 +40,7 @@ export function listenToDashboardData(
   );
 
   const state = {
+    courses: [] as DashboardData['courses'],
     assignments: [] as DashboardData['assignments'],
     grades: [] as DashboardData['grades'],
     sync: null as DashboardData['sync'] | null
@@ -48,12 +54,29 @@ export function listenToDashboardData(
     onChange({
       source: 'firestore',
       data: {
+        courses: state.courses,
         assignments: state.assignments,
         grades: state.grades,
         sync: state.sync
       }
     });
   };
+
+  const unsubscribeCourses = onSnapshot(
+    coursesQuery,
+    (snapshot) => {
+      state.courses = snapshot.docs.map((doc) => {
+        const data = doc.data();
+
+        return {
+          id: doc.id,
+          courseName: String(data.courseName ?? 'Unknown course')
+        };
+      });
+      emit();
+    },
+    (error) => onError(error as Error)
+  );
 
   const unsubscribeAssignments = onSnapshot(
     assignmentsQuery,
@@ -116,6 +139,7 @@ export function listenToDashboardData(
   );
 
   return () => {
+    unsubscribeCourses();
     unsubscribeAssignments();
     unsubscribeGrades();
     unsubscribeSyncRuns();

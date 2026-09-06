@@ -21,6 +21,11 @@ export type RawGrade = {
   sourceUrl: string;
 };
 
+export type RawCourse = {
+  courseName: string;
+  sourceUrl: string;
+};
+
 function buildConfiguredSelectors(selectors: ReturnType<typeof getBlackboardSelectors>) {
   return {
     assignments: selectors.assignmentRowSelector
@@ -54,6 +59,7 @@ function isLikelyGradeText(text: string) {
 }
 
 export async function extractRawBlackboardData(page: Page): Promise<{
+  courses: RawCourse[];
   assignments: RawAssignment[];
   grades: RawGrade[];
 }> {
@@ -77,6 +83,11 @@ export async function extractRawBlackboardData(page: Page): Promise<{
         score: number | null;
         maxScore: number | null;
         percentage: number | null;
+        sourceUrl: string;
+      };
+
+      type CourseRecord = {
+        courseName: string;
         sourceUrl: string;
       };
 
@@ -283,6 +294,10 @@ export async function extractRawBlackboardData(page: Page): Promise<{
       const fallbackRows = Array.from(document.querySelectorAll('table tr, [role="row"], li'));
       const fallbackAssignments = fallbackRows.map(scanRow).filter((item): item is RowRecord => item !== null);
       const fallbackGrades = fallbackRows.map(scanGrade).filter((item): item is GradeRecord => item !== null);
+      const fallbackCourses = [...fallbackAssignments, ...fallbackGrades].map((item) => ({
+        courseName: item.courseName,
+        sourceUrl: pageUrl
+      }));
 
       const dedupeAssignments = [...configuredAssignments, ...fallbackAssignments].filter(
         (item, index, array) =>
@@ -305,7 +320,20 @@ export async function extractRawBlackboardData(page: Page): Promise<{
           ) === index
       );
 
+      const configuredCourses = [
+        ...configuredAssignments.map((item) => ({ courseName: item.courseName, sourceUrl: item.sourceUrl })),
+        ...configuredGrades.map((item) => ({ courseName: item.courseName, sourceUrl: item.sourceUrl }))
+      ];
+      const dedupeCourses = [...configuredCourses, ...fallbackCourses].filter(
+        (item, index, array) =>
+          array.findIndex(
+            (candidate) =>
+              candidate.courseName === item.courseName && candidate.sourceUrl === item.sourceUrl
+          ) === index
+      );
+
       return {
+        courses: dedupeCourses,
         assignments: dedupeAssignments,
         grades: dedupeGrades
       };
@@ -364,19 +392,35 @@ function toGrades(rawGrades: RawGrade[], userId: string, syncRunId: string) {
   });
 }
 
+function toCourses(rawCourses: RawCourse[], userId: string, syncRunId: string) {
+  return rawCourses.map((course) => {
+    const now = new Date().toISOString();
+    return {
+      id: stableId([userId, course.courseName]),
+      courseName: safeText(course.courseName),
+      sourceUrl: course.sourceUrl,
+      scrapedAt: now,
+      syncRunId
+    };
+  });
+}
+
 export async function extractBlackboardData(page: Page) {
   const now = new Date().toISOString();
   const syncRunId = crypto.randomUUID();
   const { userId } = getScraperConfig();
   const pageTitle = await page.title();
   const sourceUrl = page.url();
-  const { assignments: rawAssignments, grades: rawGrades } = await extractRawBlackboardData(page);
+  const { courses: rawCourses, assignments: rawAssignments, grades: rawGrades } =
+    await extractRawBlackboardData(page);
+  const courses = toCourses(rawCourses, userId, syncRunId);
   const assignments = toAssignments(rawAssignments, userId, syncRunId);
   const grades = toGrades(rawGrades, userId, syncRunId);
-  const itemsScraped = assignments.length + grades.length;
+  const itemsScraped = courses.length + assignments.length + grades.length;
 
   return {
     userId,
+    courses,
     assignments,
     grades,
     syncRun: {

@@ -1,6 +1,20 @@
 import type { DashboardData } from '@/types/dashboard';
 
 export const sampleDashboardData: DashboardData = {
+  courses: [
+    {
+      id: 'c1',
+      courseName: 'Database Systems'
+    },
+    {
+      id: 'c2',
+      courseName: 'Web Development'
+    },
+    {
+      id: 'c3',
+      courseName: 'Algorithms'
+    }
+  ],
   assignments: [
     {
       id: 'a1',
@@ -33,7 +47,7 @@ export const sampleDashboardData: DashboardData = {
   ],
   sync: {
     status: 'success',
-    itemsScraped: 14,
+    itemsScraped: 17,
     startedAt: '2026-09-06 08:10',
     finishedAt: '2026-09-06 08:12'
   }

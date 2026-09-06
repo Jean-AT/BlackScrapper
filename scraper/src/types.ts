@@ -1,3 +1,11 @@
+export type BlackboardCourse = {
+  id: string;
+  courseName: string;
+  sourceUrl: string;
+  scrapedAt: string;
+  syncRunId: string;
+};
+
 export type BlackboardAssignment = {
   id: string;
   courseId: string;
@@ -25,6 +33,7 @@ export type BlackboardGrade = {
 
 export type BlackboardScrapeResult = {
   userId: string;
+  courses: BlackboardCourse[];
   assignments: BlackboardAssignment[];
   grades: BlackboardGrade[];
   syncRun: {

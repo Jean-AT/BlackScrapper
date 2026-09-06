@@ -1,3 +1,8 @@
+export type Course = {
+  id: string;
+  courseName: string;
+};
+
 export type Assignment = {
   id: string;
   title: string;
@@ -21,6 +26,7 @@ export type SyncStatus = {
 };
 
 export type DashboardData = {
+  courses: Course[];
   assignments: Assignment[];
   grades: Grade[];
   sync: SyncStatus;

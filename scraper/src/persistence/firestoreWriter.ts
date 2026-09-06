@@ -46,6 +46,13 @@ export async function writeScrapeToFirestore(result: BlackboardScrapeResult) {
     { merge: true }
   );
 
+  for (const course of result.courses) {
+    batch.set(db.collection('courses').doc(course.id), {
+      ...course,
+      userId: result.userId
+    });
+  }
+
   const syncRunRef = db.collection('sync_runs').doc(result.syncRun.id);
   batch.set(syncRunRef, {
     userId: result.userId,

@@ -8,6 +8,21 @@ type Props = {
 export function Dashboard({ data, loading }: Props) {
   return (
     <section className="dashboard-grid">
+      <article className="panel panel-wide">
+        <h2>Courses</h2>
+        <ul className="item-list item-list-columns">
+          {loading && data.courses.length === 0 ? (
+            <li className="item-card item-empty">Loading courses...</li>
+          ) : (
+            data.courses.map((course) => (
+              <li key={course.id} className="item-card item-card-compact">
+                <strong>{course.courseName}</strong>
+              </li>
+            ))
+          )}
+        </ul>
+      </article>
+
       <article className="panel">
         <h2>Pending assignments</h2>
         <ul className="item-list">
