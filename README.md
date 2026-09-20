@@ -1,6 +1,6 @@
 # BlackScrapper
 
-BlackScrapper is a local-first MVP for collecting Blackboard UPC assignments and grades into a React dashboard backed by Firebase.
+BlackScrapper is a local-first MVP for collecting Blackboard UPC assignments and grades into a React dashboard backed by Firebase .
 
 ## Structure
 - `scraper/` - Node.js + Puppeteer local scraper
